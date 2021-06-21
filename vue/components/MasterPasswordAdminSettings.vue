@@ -9,7 +9,7 @@
           <div class="row q-mb-md">
             <div class="col-2 q-mt-sm" v-t="'MAILMASTERPASSWORD.LABEL_MASTER_PASSWORD'"></div>
             <div class="col-4">
-              <q-input outlined dense class="bg-white"  ref="oldPassword" type="password" v-model="password"/>
+              <q-input outlined dense class="bg-white" type="password" v-model="password"/>
             </div>
           </div>
         </q-card-section>
