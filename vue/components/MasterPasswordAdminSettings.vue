@@ -29,8 +29,7 @@ import UnsavedChangesDialog from 'src/components/UnsavedChangesDialog'
 import webApi from 'src/utils/web-api'
 import notification from 'src/utils/notification'
 import errors from 'src/utils/errors'
-import _ from "lodash";
-import settings from "../../../BrandingWebclient/vue/settings";
+import _ from 'lodash'
 
 export default {
   name: 'MasterPasswordAdminSettings',
