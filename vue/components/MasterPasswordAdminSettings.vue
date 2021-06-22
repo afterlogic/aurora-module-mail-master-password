@@ -31,6 +31,8 @@ import notification from 'src/utils/notification'
 import errors from 'src/utils/errors'
 import _ from 'lodash'
 
+const FAKE_PASS = '     '
+
 export default {
   name: 'MasterPasswordAdminSettings',
   components: {
@@ -39,12 +41,9 @@ export default {
   data () {
     return {
       saving: false,
-      password: '',
-      fakePass: '     '
+      password: FAKE_PASS,
+      savingPass: FAKE_PASS
     }
-  },
-  mounted() {
-    this.password = this.fakePass
   },
   beforeRouteLeave (to, from, next) {
     if (this.hasChanges() && _.isFunction(this?.$refs?.unsavedChangesDialog?.openConfirmDiscardChangesDialog)) {
@@ -55,7 +54,7 @@ export default {
   },
   methods: {
     hasChanges () {
-      return this.password !== this.fakePass
+      return this.password !== this.savingPass
     },
     save () {
       if (!this.saving) {
@@ -68,7 +67,7 @@ export default {
           methodName: 'UpdateSettings',
           parameters,
         }).then(result => {
-          this.fakePass = this.password
+          this.savingPass = this.password
           this.saving = false
           if (result === true) {
             notification.showReport(this.$t('COREWEBCLIENT.REPORT_SETTINGS_UPDATE_SUCCESS'))
