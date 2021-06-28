@@ -6,15 +6,15 @@
       </div>
       <q-card flat bordered class="card-edit-settings">
         <q-card-section>
-          <div class="row q-mb-md">
+          <div class="row">
             <div class="col-2 q-mt-sm" v-t="'MAILMASTERPASSWORD.LABEL_MASTER_PASSWORD'"></div>
-            <div class="col-4">
+            <div class="col-5">
               <q-input outlined dense class="bg-white" type="password" v-model="password"/>
             </div>
           </div>
         </q-card-section>
       </q-card>
-      <div class="q-pa-md text-right">
+      <div class="q-pt-md text-right">
         <q-btn unelevated no-caps dense class="q-px-sm" :ripple="false" color="primary"
                :label="saving ? $t('COREWEBCLIENT.ACTION_SAVE_IN_PROGRESS') : $t('COREWEBCLIENT.ACTION_SAVE')"
                @click="save"/>
