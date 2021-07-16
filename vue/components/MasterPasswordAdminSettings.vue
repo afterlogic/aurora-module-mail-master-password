@@ -20,24 +20,19 @@
                @click="save"/>
       </div>
     </div>
-    <UnsavedChangesDialog ref="unsavedChangesDialog"/>
   </q-scroll-area>
 </template>
 
 <script>
-import UnsavedChangesDialog from 'src/components/UnsavedChangesDialog'
-import webApi from 'src/utils/web-api'
-import notification from 'src/utils/notification'
 import errors from 'src/utils/errors'
-import _ from 'lodash'
+import notification from 'src/utils/notification'
+import webApi from 'src/utils/web-api'
 
 const FAKE_PASS = '     '
 
 export default {
   name: 'MasterPasswordAdminSettings',
-  components: {
-    UnsavedChangesDialog
-  },
+
   data () {
     return {
       saving: false,
@@ -45,17 +40,28 @@ export default {
       savingPass: FAKE_PASS
     }
   },
+
   beforeRouteLeave (to, from, next) {
-    if (this.hasChanges() && _.isFunction(this?.$refs?.unsavedChangesDialog?.openConfirmDiscardChangesDialog)) {
-      this.$refs.unsavedChangesDialog.openConfirmDiscardChangesDialog(next)
-    } else {
-      next()
-    }
+    this.doBeforeRouteLeave(to, from, next)
   },
+
   methods: {
+    /**
+     * Method is used in doBeforeRouteLeave mixin
+     */
     hasChanges () {
       return this.password !== this.savingPass
     },
+
+    /**
+     * Method is used in doBeforeRouteLeave mixin,
+     * do not use async methods - just simple and plain reverting of values
+     * !! hasChanges method must return true after executing revertChanges method
+     */
+    revertChanges () {
+      this.password = this.savingPass
+    },
+
     save () {
       if (!this.saving) {
         this.saving = true
