@@ -51,7 +51,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 		if ($sPassword !== false && !empty($sPassword) && $this->cryptPassword($aArgs['Password']) === $sPassword)
 		{
 			$oAccount = \Aurora\Modules\Mail\Module::getInstance()->getAccountsManager()->getAccountUsedToAuthorize($aArgs['Login']);
-			if ($oAccount instanceof \Aurora\Modules\Mail\Classes\Account)
+			if ($oAccount instanceof \Aurora\Modules\Mail\Models\MailAccount)
 			{
 				$aArgs['Password'] = $oAccount->getPassword();
 			}
