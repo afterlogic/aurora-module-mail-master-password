@@ -9,7 +9,10 @@
           <div class="row">
             <div class="col-2 q-mt-sm" v-t="'MAILMASTERPASSWORD.LABEL_MASTER_PASSWORD'"></div>
             <div class="col-5">
-              <q-input outlined dense bg-color="white" type="password" autocomplete="new-password" v-model="password"/>
+              <!-- fake fields are a workaround to prevent auto-filling and saving passwords in Firefox -->
+              <input style="display:none" type="text" name="fakeusernameremembered"/>
+              <input style="display:none" type="password" name="fakepasswordremembered"/>
+              <q-input outlined dense bg-color="white" type="password" autocomplete="off" v-model="password"/>
             </div>
           </div>
         </q-card-section>
