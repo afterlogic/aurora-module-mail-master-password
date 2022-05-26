@@ -1,16 +1,16 @@
 export default {
   moduleName: 'MailMasterPassword',
 
-  requiredModules: [],
+  requiredModules: ['MailWebclient'],
 
   getAdminSystemTabs () {
     return [
       {
-        tabName: 'mailmasterpassword',
-        title: 'MAILMASTERPASSWORD.LABEL_SETTINGS_TAB',
-        component () {
-          return import('./components/MasterPasswordAdminSettings')
-        },
+        tabName: 'master-password',
+        tabTitle: 'MAILMASTERPASSWORD.LABEL_SETTINGS_TAB',
+        tabRouteChildren: [
+          { path: 'master-password', component: () => import('./components/MasterPasswordAdminSettings') },
+        ],
       },
     ]
   },
