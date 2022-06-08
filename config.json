@@ -1,10 +1,18 @@
 {
-    "Disabled": [
-		false,
-		"bool"
-	],
-	"Password": [
-	"",
-	"string"
-	]
+  "Disabled": [
+    false,
+    "bool"
+  ],
+  "Disabled_Description": [
+    "",
+    "string"
+  ],
+  "Password": [
+    "",
+    "string"
+  ],
+  "Password_Description": [
+    "",
+    "string"
+  ]
 }
