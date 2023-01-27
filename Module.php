@@ -4,7 +4,7 @@
  * if commercial version of the product was purchased.
  * For full statements of the licenses see LICENSE-AFTERLOGIC and LICENSE-AGPL3 files.
  */
- 
+
 namespace Aurora\Modules\MailMasterPassword;
 
 /**
@@ -18,51 +18,48 @@ namespace Aurora\Modules\MailMasterPassword;
  */
 class Module extends \Aurora\System\Module\AbstractModule
 {
-	/***** private functions *****/
-	/**
-	 * @return void
-	 */
-	public function init()
-	{
-		$this->subscribeEvent('Core::Login::before', array($this, 'onBeforLogin'), 10);
-	}
-	
-	/**
-	 * Return crypted password.
-	 * 
-	 * @param string $Password
-	 * @return string
-	 */
-	protected function cryptPassword($Password)
-	{
-		return crypt(trim($Password), \Aurora\System\Api::$sSalt);
-	}
+    /***** private functions *****/
+    /**
+     * @return void
+     */
+    public function init()
+    {
+        $this->subscribeEvent('Core::Login::before', array($this, 'onBeforLogin'), 10);
+    }
 
-	/**
-	 * Tries to log in with specified credentials.
-	 * 
-	 * @param array $aParams Parameters contain the required credentials.
-	 * @param array|mixed $mResult Parameter is passed by reference for further filling with result. Result is the array with data for authentication token.
-	 */
-	public function onBeforLogin(&$aArgs, &$mResult)
-	{
-		$sPassword = $this->getConfig('Password', false);
-		
-		if ($sPassword !== false && !empty($sPassword) && $this->cryptPassword($aArgs['Password']) === $sPassword)
-		{
-			$oAccount = \Aurora\Modules\Mail\Module::getInstance()->getAccountsManager()->getAccountUsedToAuthorize($aArgs['Login']);
-			if ($oAccount instanceof \Aurora\Modules\Mail\Models\MailAccount)
-			{
-				$aArgs['Password'] = $oAccount->getPassword();
-			}
-		}
-	}
-	/***** private functions *****/
+    /**
+     * Return crypted password.
+     *
+     * @param string $Password
+     * @return string
+     */
+    protected function cryptPassword($Password)
+    {
+        return crypt(trim($Password), \Aurora\System\Api::$sSalt);
+    }
 
-	public function UpdateSettings($MasterPassword)
-	{
-		$this->setConfig('Password', $this->cryptPassword($MasterPassword));
-		return $this->saveModuleConfig();
-	}
+    /**
+     * Tries to log in with specified credentials.
+     *
+     * @param array $aParams Parameters contain the required credentials.
+     * @param array|mixed $mResult Parameter is passed by reference for further filling with result. Result is the array with data for authentication token.
+     */
+    public function onBeforLogin(&$aArgs, &$mResult)
+    {
+        $sPassword = $this->getConfig('Password', false);
 
+        if ($sPassword !== false && !empty($sPassword) && $this->cryptPassword($aArgs['Password']) === $sPassword) {
+            $oAccount = \Aurora\Modules\Mail\Module::getInstance()->getAccountsManager()->getAccountUsedToAuthorize($aArgs['Login']);
+            if ($oAccount instanceof \Aurora\Modules\Mail\Models\MailAccount) {
+                $aArgs['Password'] = $oAccount->getPassword();
+            }
+        }
+    }
+    /***** private functions *****/
+
+    public function UpdateSettings($MasterPassword)
+    {
+        $this->setConfig('Password', $this->cryptPassword($MasterPassword));
+        return $this->saveModuleConfig();
+    }
 }
