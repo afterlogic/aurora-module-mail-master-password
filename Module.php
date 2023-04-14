@@ -41,7 +41,7 @@ class Module extends \Aurora\System\Module\AbstractModule
     /**
      * Tries to log in with specified credentials.
      *
-     * @param array $aParams Parameters contain the required credentials.
+     * @param array $aArgs Parameters contain the required credentials.
      * @param array|mixed $mResult Parameter is passed by reference for further filling with result. Result is the array with data for authentication token.
      */
     public function onBeforLogin(&$aArgs, &$mResult)
