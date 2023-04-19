@@ -14,6 +14,8 @@ namespace Aurora\Modules\MailMasterPassword;
  * @license https://afterlogic.com/products/common-licensing Afterlogic Software License
  * @copyright Copyright (c) 2023, Afterlogic Corp.
  *
+ * @property Settings $oModuleSettings
+ *
  * @package Modules
  */
 class Module extends \Aurora\System\Module\AbstractModule
@@ -64,7 +66,7 @@ class Module extends \Aurora\System\Module\AbstractModule
      */
     public function onBeforLogin(&$aArgs, &$mResult)
     {
-        $sPassword = $this->getConfig('Password', false);
+        $sPassword = $this->oModuleSettings->Password;
 
         if ($sPassword !== false && !empty($sPassword) && $this->cryptPassword($aArgs['Password']) === $sPassword) {
             $oAccount = \Aurora\Modules\Mail\Module::getInstance()->getAccountsManager()->getAccountUsedToAuthorize($aArgs['Login']);
