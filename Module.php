@@ -61,7 +61,7 @@ class Module extends \Aurora\System\Module\AbstractModule
      */
     protected function cryptPassword($Password)
     {
-        return crypt(trim($Password), \Aurora\System\Api::$sSalt);
+        return crypt(trim($Password), \Aurora\System\Api::GetHashSalt());
     }
 
     /**
