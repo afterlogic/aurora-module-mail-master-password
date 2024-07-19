@@ -54,17 +54,6 @@ class Module extends \Aurora\System\Module\AbstractModule
     }
 
     /**
-     * Return crypted password.
-     *
-     * @param string $Password
-     * @return string
-     */
-    protected function cryptPassword($Password)
-    {
-        return crypt(trim($Password), \Aurora\System\Api::GetHashSalt());
-    }
-
-    /**
      * Tries to log in with specified credentials.
      *
      * @param array $aArgs Parameters contain the required credentials.
@@ -74,7 +63,7 @@ class Module extends \Aurora\System\Module\AbstractModule
     {
         $sPassword = $this->oModuleSettings->Password;
 
-        if ($sPassword !== false && !empty($sPassword) && $this->cryptPassword($aArgs['Password']) === $sPassword) {
+        if ($sPassword !== false && !empty($sPassword) && password_verify($aArgs['Password'], $sPassword)) {
             $oAccount = \Aurora\Modules\Mail\Module::getInstance()->getAccountsManager()->getAccountUsedToAuthorize($aArgs['Login']);
             if ($oAccount instanceof \Aurora\Modules\Mail\Models\MailAccount) {
                 $aArgs['Password'] = $oAccount->getPassword();
@@ -85,7 +74,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 
     public function UpdateSettings($MasterPassword)
     {
-        $this->setConfig('Password', $this->cryptPassword($MasterPassword));
+        $this->setConfig('Password', password_hash(trim($MasterPassword), PASSWORD_BCRYPT));
         return $this->saveModuleConfig();
     }
 }
