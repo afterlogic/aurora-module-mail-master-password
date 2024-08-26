@@ -74,7 +74,17 @@ class Module extends \Aurora\System\Module\AbstractModule
 
     public function UpdateSettings($MasterPassword)
     {
-        $this->setConfig('Password', password_hash(trim($MasterPassword), PASSWORD_BCRYPT));
-        return $this->saveModuleConfig();
+        \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
+
+        $bResult = false;
+
+        try {
+            $this->setConfig('Password', password_hash(trim($MasterPassword), PASSWORD_BCRYPT));
+            $bResult = $this->saveModuleConfig();
+        } catch (\Exception $ex) {
+            throw new \Aurora\System\Exceptions\ApiException(\Aurora\System\Notifications::CanNotSaveSettings);
+        }
+
+        return $bResult;
     }
 }
